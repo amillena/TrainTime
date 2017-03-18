@@ -1,0 +1,28 @@
+.jumbotron{
+	text-align:center;
+	width:800px;
+	margin-left: 320px;
+	color:white;
+	background-color: darkblue;
+	font-weight:bold;
+	font-size:20px;
+}
+.container{
+	text-align:left;
+	width:850px;
+	margin-left: 300px;
+	
+	padding: 20px;
+}
+.container h2
+{
+	color:white;
+	background-color: darkblue;
+	text-align: left;
+}
+.result{
+	margin-top:20px;
+}
+.glyphicon .large{
+	font-size:25px;
+}
