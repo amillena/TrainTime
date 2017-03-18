@@ -41,28 +41,28 @@ $(document).ready(function() {
      var firstTrainTime = $("#start-time").val().trim();
      var frequency = $("#frequency").val().trim();
 
-        console.log(firstTrainTime); 
+        // console.log(firstTrainTime); 
     firstTimeConverted = moment(firstTrainTime, "hh:mm")
-        console.log(firstTimeConverted); 
+        // console.log(firstTimeConverted); 
 
     currentTime = moment();
-        console.log(currentTime);
+        // console.log(currentTime);
 
     diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-        console.log(diffTime);   
+        // console.log(diffTime);   
        
     tRemainder = diffTime % frequency;
-        console.log(tRemainder);
+        // console.log(tRemainder);
 
 
     minutesTillTrain = frequency - tRemainder;
-        console.log(minutesTillTrain);  
+        // console.log(minutesTillTrain);  
 
     nextTrain = moment().add(minutesTillTrain, "minutes");
-        console.log(nextTrain);
+        // console.log(nextTrain);
 
     nextTrainFormatted = moment(nextTrain).format("hh:mm")
-        console.log(nextTrainFormatted);
+        // console.log(nextTrainFormatted);
 
 
   keyHolder = database.ref().push({
@@ -73,7 +73,9 @@ $(document).ready(function() {
         nextTrainFormatted: nextTrainFormatted,
         minutesTillTrain: minutesTillTrain,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
+
       });
+
 
       $("#trainName").val('');
       $("#destination").val('');
@@ -85,13 +87,14 @@ $(document).ready(function() {
     });
 
 
-
-
 // Firebase "watcher" 
       database.ref().on("child_added", function(childSnapshot) {
+      // console.log(childSnapshot.key);
 
- 
-      $(".tbody").append("<tr><td>"+ childSnapshot.val().trainName +"</td>"+
+
+
+
+      $(".tbody").append("<tr id="+childSnapshot.key+"><td>"+ childSnapshot.val().trainName +"</td>"+
                         "<td>"+ childSnapshot.val().destination +"</td>"+
                         "<td>"+ childSnapshot.val().frequency +"</td>"+
                         "<td>"+ childSnapshot.val().nextTrainFormatted+"</td>"+
@@ -104,14 +107,13 @@ $(document).ready(function() {
     }, function(errorObject) {
       console.log("The read failed: " + errorObject.code);
 
-
-
     });
 
 // Removing items
 $("body").on("click", ".remove-train", function(){
      $(this).closest ('tr').remove();
-
-    database.child.remove();
+     getKey = $(this).parent().parent().attr('id');
+     // console.log(getKey);
+     database.ref(getKey).remove();
 });
 });
